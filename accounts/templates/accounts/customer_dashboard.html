@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section style="min-height: 100vh; background: linear-gradient(135deg, #00b4d8, #0078d7); display: flex; justify-content: center; align-items: center; padding: 40px;">
+
+  <div style="background: white; border-radius: 20px; width: 100%; max-width: 800px; padding: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); text-align: center;">
+
+    <h1 style="color: #0078d7; font-weight: bold;">👋 Welcome, {{ request.user.username }}!</h1>
+    <p style="color: #555;">We’re happy to serve you. Here’s your personal dashboard.</p>
+    <hr style="margin: 20px 0;">
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+
+      <a href="{% url 'service_list' %}" style="text-decoration: none;">
+        <div style="background: #0078d7; color: white; padding: 20px; border-radius: 15px; transition: 0.3s;">
+          <h3>🧹 Book a Service</h3>
+          <p>Find cleaning and maintenance services.</p>
+        </div>
+      </a>
+
+      <a href="{% url 'my_bookings' %}" style="text-decoration: none;">
+        <div style="background: #00b4d8; color: white; padding: 20px; border-radius: 15px; transition: 0.3s;">
+          <h3>📅 My Bookings</h3>
+          <p>View and manage your service bookings.</p>
+        </div>
+      </a>
+
+      <a href="{% url 'profile' %}" style="text-decoration: none;">
+        <div style="background: #90e0ef; color: #023e8a; padding: 20px; border-radius: 15px; transition: 0.3s;">
+          <h3>👤 My Profile</h3>
+          <p>Update your information and address.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  div[style*="background: #0078d7"]:hover,
+  div[style*="background: #00b4d8"]:hover,
+  div[style*="background: #90e0ef"]:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+</style>
+
+{% endblock %}

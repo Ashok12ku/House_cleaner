@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Page Background -->
+<section style="min-height: 100vh; background: linear-gradient(135deg, #0078D7, #00B4D8); padding: 40px 0;">
+
+  <div style="max-width: 900px; margin: 0 auto; background: #fff; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); padding: 30px;">
+
+    <h2 style="text-align:center; color:#0078D7; font-weight:bold; margin-bottom:25px;">📋 My Bookings</h2>
+
+    {% if bookings %}
+      <table style="width:100%; border-collapse: collapse; text-align:center;">
+        <thead>
+          <tr style="background:#0078D7; color:white; border-radius: 10px;">
+            <th style="padding:12px; border-top-left-radius:10px;">Service</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th style="border-top-right-radius:10px;">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for booking in bookings %}
+          <tr style="background:#f9f9f9; border-bottom:1px solid #ddd; transition: all 0.3s ease;">
+            <td style="padding:12px;">{{ booking.service.name }}</td>
+            <td>{{ booking.date }} at {{ booking.time }}</td>
+
+            <td>
+              {% if booking.status == "confirmed" %}
+                <span style="background:#28a745; color:white; padding:6px 12px; border-radius:20px; font-size:0.9rem;">✅ Confirmed</span>
+              {% elif booking.status == "pending" %}
+                <span style="background:#ffc107; color:#000; padding:6px 12px; border-radius:20px; font-size:0.9rem;">⏳ Pending</span>
+              {% elif booking.status == "completed" %}
+                <span style="background:#17a2b8; color:white; padding:6px 12px; border-radius:20px; font-size:0.9rem;">🏁 Completed</span>
+              {% elif booking.status == "cancelled" %}
+                <span style="background:#dc3545; color:white; padding:6px 12px; border-radius:20px; font-size:0.9rem;">❌ Cancelled</span>
+              {% else %}
+                <span style="background:#6c757d; color:white; padding:6px 12px; border-radius:20px; font-size:0.9rem;">❓ Unknown</span>
+              {% endif %}
+            </td>
+
+            <td style="padding:12px; text-align:center;">
+              {% if booking.status == "completed" and not booking.review %}
+                <a href="{% url 'add_review' booking.id %}" style="background:#28a745; color:white; padding:6px 12px; border-radius:8px; text-decoration:none; margin-right:5px; font-size:0.85rem;">
+                  ⭐ Review
+                </a>
+              {% endif %}
+              
+              {% if booking.can_cancel %}
+                <a href="{% url 'cancel_booking' booking.id %}" style="background:#dc3545; color:white; padding:6px 12px; border-radius:8px; text-decoration:none; font-size:0.85rem;">
+                  ❌ Cancel
+                </a>
+              {% endif %}
+              
+              {% if booking.status == "completed" %}
+                <a href="{% url 'download_invoice' %}" style="background:#0078D7; color:white; padding:6px 12px; border-radius:8px; text-decoration:none; margin-left:5px; font-size:0.85rem;">
+                  📄 Invoice
+                </a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% else %}
+      <div style="text-align:center; margin-top:40px;">
+        <p style="font-size:1.1rem; color:#333;">🙁 No bookings found yet.</p>
+        <a href="/services/" style="display:inline-block; margin-top:20px; background:#0078D7; color:white; padding:10px 25px; border-radius:8px; text-decoration:none; font-weight:bold; transition:all 0.3s ease;">
+          Book a Service
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Extra CSS for hover effects -->
+<style>
+  table tbody tr:hover {
+    background: #e8f4ff !important;
+    transform: scale(1.01);
+  }
+
+  th, td {
+    padding: 14px;
+  }
+
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 10px;
+    }
+  }
+</style>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Full Page Centered Layout -->
+<section style="min-height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #0078D7, #00B4D8); padding: 40px;">
+
+  <!-- Booking Card -->
+  <div style="background: #fff; width: 100%; max-width: 550px; border-radius: 20px; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); border: 3px solid #0078D7;">
+
+    <!-- Service Header -->
+    <div style="text-align: center; margin-bottom: 25px;">
+        <h2 style="color: #0078D7; font-weight: bold;">🧾 Book Your Service</h2>
+        <h4 style="margin-top: 10px; color: #333;">{{ service.name }}</h4>
+        <p style="color: #555; font-size: 0.95rem;">Please fill in your details below to confirm your booking.</p>
+        <hr style="border: none; border-top: 2px solid #0078D7; width: 60px; margin: 15px auto;">
+    </div>
+
+    <!-- Booking Form -->
+    <form method="POST" style="text-align: left;">
+        {% csrf_token %}
+        <div style="margin-bottom: 15px;">
+            {{ form.as_p }}
+        </div>
+
+        <!-- Button -->
+        <div style="text-align: center; margin-top: 20px;">
+            <button type="submit" 
+                    style="background: #0078D7; color: white; font-weight: bold; padding: 12px 30px; 
+                           border: none; border-radius: 10px; font-size: 1rem; 
+                           cursor: pointer; transition: all 0.3s ease;">
+                Confirm Booking
+            </button>
+        </div>
+    </form>
+
+  </div>
+</section>
+
+<!-- Extra CSS for hover and animation -->
+<style>
+    button[type="submit"]:hover {
+        background: white !important;
+        color: #0078D7 !important;
+        border: 2px solid #0078D7 !important;
+        transform: scale(1.05);
+    }
+
+    div[style*="max-width: 550px"]:hover {
+        transform: translateY(-5px);
+        transition: 0.3s ease;
+        box-shadow: 0 15px 30px rgba(0, 120, 215, 0.4);
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        margin-top: 5px;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #0078D7;
+        box-shadow: 0 0 5px rgba(0, 120, 215, 0.3);
+    }
+
+    label {
+        font-weight: 600;
+        color: #333;
+    }
+</style>
+{% endblock %}

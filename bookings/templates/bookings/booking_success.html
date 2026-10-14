@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<section style="padding:40px; text-align:center;">
+    <h2>✅ Booking Confirmed!</h2>
+    <p>Thank you, {{ booking.full_name }}! Your booking for <strong>{{ booking.service.name }}</strong> has been successfully created.</p>
+    <p>📅 Date: {{ booking.date }} | 🕒 Time: {{ booking.time }}</p>
+    <p>We’ll contact you soon at {{ booking.phone }}.</p>
+    <a href="/" style="background:#0078D7; color:white; padding:10px 20px; border-radius:5px; text-decoration:none;">Go Home</a>
+</section>
+{% endblock %}
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Full Page Background -->
+<section style="min-height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #0078D7, #00B4D8); padding: 40px;">
+
+  <!-- Confirmation Card -->
+  <div style="background: #fff; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); width: 100%; max-width: 600px; padding: 40px; text-align: center; border: 3px solid #0078D7;">
+
+    <!-- Animated Success Icon -->
+    <div style="width: 100px; height: 100px; margin: 0 auto 20px; border-radius: 50%; background: #E6F4FF; display: flex; justify-content: center; align-items: center; border: 4px solid #0078D7;">
+      <span style="font-size: 3rem; color: #0078D7;">✅</span>
+    </div>
+
+    <!-- Confirmation Message -->
+    <h2 style="color: #0078D7; font-weight: bold; margin-bottom: 15px;">Booking Confirmed!</h2>
+    <p style="color: #444; font-size: 1.1rem;">Thank you, <strong>{{ booking.full_name }}</strong>! Your booking for  
+       <strong style="color: #0078D7;">{{ booking.service.name }}</strong> has been successfully created.</p>
+
+    <!-- Booking Details Card -->
+    <div style="background: #f9f9f9; border: 2px dashed #0078D7; border-radius: 12px; padding: 20px; margin: 25px 0;">
+      <p style="font-size: 1.05rem; margin-bottom: 8px;">📅 <strong>Date:</strong> {{ booking.date }}</p>
+      <p style="font-size: 1.05rem; margin-bottom: 8px;">🕒 <strong>Time:</strong> {{ booking.time }}</p>
+      <p style="font-size: 1.05rem;">📞 <strong>Contact:</strong> {{ booking.phone }}</p>
+    </div>
+
+    <p style="color: #666;">We’ll contact you soon to confirm your details.</p>
+
+    <!-- Button -->
+    <a href="/" 
+       style="display: inline-block; margin-top: 25px; background: #0078D7; color: white; padding: 12px 30px; 
+              border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1rem; 
+              transition: all 0.3s ease;">
+      Go Home
+    </a>
+  </div>
+</section>
+
+<!-- Extra CSS for hover/animation -->
+<style>
+  /* Hover effect on button */
+  a[href="/"]:hover {
+      background: white !important;
+      color: #0078D7 !important;
+      border: 2px solid #0078D7 !important;
+  }
+
+  /* Card hover effect */
+  div[style*="max-width: 600px"]:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 120, 215, 0.4);
+  }
+
+  /* Success icon animation */
+  @keyframes pop {
+      0% { transform: scale(0.6); opacity: 0; }
+      70% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+  }
+  div[style*="width: 100px"] {
+      animation: pop 0.6s ease;
+  }
+</style>
+{% endblock %}

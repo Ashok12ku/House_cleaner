@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section style="min-height:100vh; background:linear-gradient(135deg, #0078D7, #00B4D8); padding:50px 20px;">
+
+  <div style="max-width:1200px; margin:0 auto; background:white; border-radius:20px; padding:40px; 
+              box-shadow:0 10px 30px rgba(0,0,0,0.25); border:3px solid #0078D7;">
+      
+      <!-- Header -->
+      <h2 style="text-align:center; color:#0078D7; font-weight:bold; margin-bottom:40px;">
+        📊 Admin Dashboard - House Cleaner
+      </h2>
+
+      <!-- Dashboard Cards -->
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:25px;">
+
+          <div style="background:linear-gradient(135deg, #0078D7, #00A6FF); color:white; padding:25px; 
+                      border-radius:15px; width:300px; text-align:center; box-shadow:0 8px 20px rgba(0,0,0,0.15); 
+                      transition:transform 0.3s;">
+              <h3 style="margin-bottom:10px;">👥 Total Users</h3>
+              <h1 style="font-size:2.5rem;">{{ total_users }}</h1>
+          </div>
+
+          <div style="background:linear-gradient(135deg, #28A745, #5DD46B); color:white; padding:25px; 
+                      border-radius:15px; width:300px; text-align:center; box-shadow:0 8px 20px rgba(0,0,0,0.15); 
+                      transition:transform 0.3s;">
+              <h3 style="margin-bottom:10px;">📦 Total Bookings</h3>
+              <h1 style="font-size:2.5rem;">{{ total_bookings }}</h1>
+          </div>
+
+          <div style="background:linear-gradient(135deg, #FFC107, #FFD85C); color:white; padding:25px; 
+                      border-radius:15px; width:300px; text-align:center; box-shadow:0 8px 20px rgba(0,0,0,0.15); 
+                      transition:transform 0.3s;">
+              <h3 style="margin-bottom:10px;">💰 Total Revenue</h3>
+              <h1 style="font-size:2.5rem;">₹{{ total_revenue }}</h1>
+          </div>
+
+      </div>
+
+      <hr style="margin:50px 0; border-top:2px solid #0078D7;">
+
+      <!-- Chart Section -->
+      <div style="text-align:center;">
+          <h3 style="color:#0078D7; margin-bottom:20px;">📅 Daily Booking Trends</h3>
+          <div style="background:#f9f9f9; border-radius:15px; padding:20px; 
+                      box-shadow:0 5px 15px rgba(0,0,0,0.1); border:1px solid #0078D7;">
+              <canvas id="bookingChart" style="width:100%; height:400px;"></canvas>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('bookingChart');
+
+    const labels = [{% for b in daily_bookings %}'{{ b.date }}',{% endfor %}];
+    const data = [{% for b in daily_bookings %}{{ b.count }},{% endfor %}];
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Bookings per Day',
+                data: data,
+                borderColor: '#0078D7',
+                backgroundColor: 'rgba(0,120,215,0.2)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 5,
+                pointBackgroundColor: '#0078D7'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(0,0,0,0.05)' }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(0,0,0,0.05)' }
+                }
+            }
+        }
+    });
+
+    // Card Hover Effect
+    const cards = document.querySelectorAll('div[style*="width:300px"]');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-10px) scale(1.05)';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+        });
+    });
+</script>
+
+{% endblock %}

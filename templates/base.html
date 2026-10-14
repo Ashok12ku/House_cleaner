@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Cleaner App</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <nav>
+            <h1>🏠 House Cleaner</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/services/">Services</a></li>
+                <li><a href="/bookings/">Book Now</a></li>
+                
+                {% if user.is_authenticated %}
+                    {% if user.is_provider %}
+                        <!-- Provider Dashboard -->
+                        <li><a href="/accounts/provider-dashboard/" style="color:white; margin:10px;">Provider Dashboard</a></li>
+                    {% else %}
+                        <!-- Customer Dashboard -->
+                        <li><a href="/accounts/customer-dashboard/" style="color:white; margin:10px;">Customer Dashboard</a></li>
+                    {% endif %}
+
+                <li><a href="/bookings/my-bookings/" style="color:white; margin:10px;">My Bookings</a></li>
+                <li><a href="/accounts/logout/" style="color:white; margin:10px;">Logout</a></li>
+                <li><a href="/accounts/profile/" style="color:white; margin:10px;">Profile</a></li>
+                {% else %}
+                <li><a href="/accounts/login/" style="color:white; margin:10px;">Login</a></li>
+                <li><a href="/accounts/signup/" style="color:white; margin:10px;">Signup</a></li>
+                {% endif %}
+            </ul>
+            <form method="get" action="/bookings/search/" style="text-align:center; margin-top:20px;">
+    <input type="text" name="q" placeholder="Search cleaning services..." 
+           style="padding:10px; width:300px; border-radius:5px; border:1px solid #ccc;">
+    <button type="submit" style="padding:10px 15px; background:#0078D7; color:white; border:none; border-radius:5px;">
+        Search
+    </button>
+</form>
+
+        </nav>
+
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 House Cleaner. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

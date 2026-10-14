@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section style="min-height:100vh; background:linear-gradient(135deg, #0078D7, #00B4D8); padding:50px 20px;">
+
+  <div style="max-width:1200px; margin:0 auto; background:white; border-radius:20px; padding:40px; 
+              box-shadow:0 10px 30px rgba(0,0,0,0.25); border:3px solid #0078D7;">
+      
+      <h2 style="text-align:center; color:#0078D7; font-weight:bold; margin-bottom:40px;">
+        🧾 Manage Bookings
+      </h2>
+
+      <!-- Filter Section -->
+      <form method="get" 
+            style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center; align-items:center; margin-bottom:30px;">
+          
+          <div>
+              <label style="font-weight:bold;">Status:</label>
+              <select name="status" 
+                      style="padding:8px 12px; border:1px solid #ccc; border-radius:8px; min-width:150px;">
+                  <option value="">All</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Completed">Completed</option>
+              </select>
+          </div>
+
+          <div>
+              <label style="font-weight:bold;">Date:</label>
+              <input type="date" name="date" 
+                     style="padding:8px 12px; border:1px solid #ccc; border-radius:8px;">
+          </div>
+
+          <button type="submit" 
+                  style="background:#0078D7; color:white; border:none; padding:10px 20px; border-radius:8px;
+                         font-weight:bold; cursor:pointer; transition:0.3s;">
+              🔍 Filter
+          </button>
+      </form>
+
+      <!-- Booking Table -->
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; border-radius:10px; overflow:hidden;">
+            <thead>
+                <tr style="background:#0078D7; color:white; text-align:center;">
+                    <th style="padding:12px;">ID</th>
+                    <th style="padding:12px;">User</th>
+                    <th style="padding:12px;">Service</th>
+                    <th style="padding:12px;">Date</th>
+                    <th style="padding:12px;">Status</th>
+                    <th style="padding:12px;">Payment</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for b in bookings %}
+                <tr style="text-align:center; border-bottom:1px solid #ddd; transition:background 0.2s;"
+                    onmouseover="this.style.background='#f1f9ff'" 
+                    onmouseout="this.style.background='white'">
+
+                    <td style="padding:12px;">{{ b.id }}</td>
+                    <td style="padding:12px;">{{ b.user.username }}</td>
+                    <td style="padding:12px;">{{ b.service.name }}</td>
+                    <td style="padding:12px;">{{ b.date }}</td>
+
+                    <!-- Status Styling -->
+                    <td style="padding:12px;">
+                        {% if b.status == 'pending' %}
+                            <span style="background:#FFC107; color:white; padding:5px 10px; border-radius:8px;">
+                                Pending
+                            </span>
+                        {% elif b.status == 'confirmed' %}
+                            <span style="background:#28A745; color:white; padding:5px 10px; border-radius:8px;">
+                                Confirmed
+                            </span>
+                        {% elif b.status == 'completed' %}
+                            <span style="background:#0078D7; color:white; padding:5px 10px; border-radius:8px;">
+                                Completed
+                            </span>
+                        {% else %}
+                            <span style="background:#6c757d; color:white; padding:5px 10px; border-radius:8px;">
+                                Unknown
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Payment Styling -->
+                    <td style="padding:12px;">
+                        {% if b.payment_status == 'paid' %}
+                            <span style="background:#28A745; color:white; padding:5px 10px; border-radius:8px;">
+                                Paid
+                            </span>
+                        {% else %}
+                            <span style="background:#DC3545; color:white; padding:5px 10px; border-radius:8px;">
+                                Unpaid
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+
+      {% if not bookings %}
+          <p style="text-align:center; margin-top:30px; color:#555;">🙁 No bookings found for your filters.</p>
+      {% endif %}
+  </div>
+</section>
+
+{% endblock %}
